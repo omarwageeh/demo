@@ -28,7 +28,7 @@ export class ModalComponent {
   onHide() {
     this.modalChange.emit(false);
   }
-  handleSubmitChild(di: Dialog, event: Event) {
+  handleSubmitChild(di: Dialog) {
     di.onHide.emit();
     this.handleSubmit({ ...this.country });
   }
