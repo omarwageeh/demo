@@ -1,0 +1,31 @@
+<p-dialog
+  #di
+  header="Add"
+  [(visible)]="modal"
+  [modal]="true"
+  [style]="{ width: '50vw' }"
+  [draggable]="false"
+  [resizable]="false"
+  style="display: flex; flex-direction: column"
+>
+  <ng-template pTemplate="input">
+    <label for="">Name</label>
+    <input class="me-1" pInputText type="text" [(ngModel)]="country.name" />
+    <label for="">Currency</label>
+    <input
+      class="me-1"
+      pInputText
+      type="text"
+      [(ngModel)]="country.currencies"
+    />
+    <label for="">Capital</label>
+    <input class="me-1" pInputText type="text" [(ngModel)]="country.capital" />
+    <label class="me-2" for="">Region</label>
+    <input class="me-1" pInputText type="text" [(ngModel)]="country.region" />
+  </ng-template>
+  <p-button
+    icon="pi pi-external-link"
+    label="submit"
+    (click)="handleSubmitChild(di, $event)"
+  ></p-button>
+</p-dialog>

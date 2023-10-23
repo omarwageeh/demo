@@ -1,0 +1,195 @@
+<div class="card">
+  <app-modal [(modal)]="modal" [(handleSubmit)]="handleSubmit"></app-modal>
+  <p-toast></p-toast>
+  <p-table
+    #dt1
+    [value]="countries"
+    dataKey="id"
+    editMode="row"
+    [rows]="10"
+    (sortFunction)="customSort($event)"
+    [customSort]="true"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading"
+    [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['name', 'currencies', 'capital', 'region']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <button
+          pButton
+          label="Clear"
+          class="p-button-outlined ml-auto"
+          icon="pi pi-filter-slash"
+          (click)="clear(dt1)"
+        ></button>
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            (input)="filter($event, dt1)"
+            placeholder="Search keyword"
+          />
+        </span>
+        <p-button
+          (click)="toggleModal()"
+          icon="pi pi-external-link"
+          label="Show"
+        ></p-button>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name" style="min-width: 10rem">
+          <div class="flex justify-content-between align-items-center">
+            Country
+            <p-sortIcon field="name"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="name"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th pSortableColumn="currencies" style="min-width: 10rem">
+          <div class="flex justify-content-between align-items-center">
+            Currency
+            <p-sortIcon field="currencies"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="currencies"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+          </div>
+        </th>
+
+        <th pSortableColumn="capital" style="min-width: 10rem">
+          <div class="flex justify-content-between align-items-center">
+            Capital
+            <p-sortIcon field="capital"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="capital"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th pSortableColumn="region" style="min-width: 10rem">
+          <div class="flex justify-content-between align-items-center">
+            Region
+            <p-sortIcon field="region"></p-sortIcon>
+            <p-columnFilter
+              type="text"
+              field="region"
+              display="menu"
+              class="ml-auto"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th style="width: 5rem"></th>
+      </tr>
+    </ng-template>
+    <ng-template
+      pTemplate="body"
+      let-country
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr [pEditableRow]="country">
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="country.name" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ country.name }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="country.currencies" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ country.currencies }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="country.capital" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ country.capital }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <p-cellEditor>
+            <ng-template pTemplate="input">
+              <input pInputText type="text" [(ngModel)]="country.region" />
+            </ng-template>
+            <ng-template pTemplate="output">
+              {{ country.region }}
+            </ng-template>
+          </p-cellEditor>
+        </td>
+        <td>
+          <div class="flex align-items-center justify-content-center gap-2">
+            <div class="d-flex flex-row">
+              <button
+                *ngIf="!editing"
+                pButton
+                pRipple
+                type="button"
+                pInitEditableRow
+                icon="pi pi-pencil"
+                (click)="onRowEditInit(country)"
+                class="p-button-rounded p-button-text pi"
+              ></button>
+              <button
+                *ngIf="!editing"
+                pButton
+                pRipple
+                type="button"
+                icon="pi pi-times"
+                (click)="onRowDelete(ri)"
+                class="p-button-rounded p-button-text pi"
+              ></button>
+            </div>
+
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pSaveEditableRow
+              icon="pi pi-check"
+              (click)="onRowEditSave(country, ri)"
+              class="p-button-rounded p-button-text p-button-success mr-2"
+            ></button>
+            <button
+              *ngIf="editing"
+              pButton
+              pRipple
+              type="button"
+              pCancelEditableRow
+              icon="pi pi-times"
+              (click)="onRowEditCancel(country, ri)"
+              class="p-button-rounded p-button-text p-button-danger"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
