@@ -17,7 +17,7 @@ export class ModalComponent {
     capital: '',
     region: '',
   };
-  OnInit() {
+  clear() {
     this.country = {
       name: '',
       currencies: '',
@@ -30,6 +30,8 @@ export class ModalComponent {
   }
   handleSubmitChild(di: Dialog) {
     di.onHide.emit();
+    //could also emit country to handleSubmit if it was an output instead of an input
     this.handleSubmit({ ...this.country });
+    this.clear();
   }
 }
