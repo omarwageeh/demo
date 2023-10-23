@@ -6,26 +6,43 @@
   [style]="{ width: '50vw' }"
   [draggable]="false"
   [resizable]="false"
-  style="display: flex; flex-direction: column"
+  (onHide)="onHide()"
 >
   <ng-template pTemplate="input">
-    <label for="">Name</label>
-    <input class="me-1" pInputText type="text" [(ngModel)]="country.name" />
-    <label for="">Currency</label>
-    <input
-      class="me-1"
-      pInputText
-      type="text"
-      [(ngModel)]="country.currencies"
-    />
-    <label for="">Capital</label>
-    <input class="me-1" pInputText type="text" [(ngModel)]="country.capital" />
-    <label class="me-2" for="">Region</label>
-    <input class="me-1" pInputText type="text" [(ngModel)]="country.region" />
+    <tr>
+      <label for="">Name</label>
+      <input class="me-1" pInputText type="text" [(ngModel)]="country.name" />
+    </tr>
+    <tr>
+      <label for="">Currency</label>
+      <input
+        class="me-1"
+        pInputText
+        type="text"
+        [(ngModel)]="country.currencies"
+      />
+    </tr>
+    <tr>
+      <label for="">Capital</label>
+
+      <input
+        class="me-1"
+        pInputText
+        type="text"
+        [(ngModel)]="country.capital"
+      />
+    </tr>
+    <tr>
+      <label class="me-2" for="">Region</label>
+      <input class="me-1" pInputText type="text" [(ngModel)]="country.region" />
+    </tr>
   </ng-template>
-  <p-button
-    icon="pi pi-external-link"
+
+  <button
+    class="btn btn-primary"
     label="submit"
     (click)="handleSubmitChild(di, $event)"
-  ></p-button>
+  >
+    Submit
+  </button>
 </p-dialog>

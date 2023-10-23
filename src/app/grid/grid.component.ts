@@ -6,7 +6,7 @@ import { Dialog } from 'primeng/dialog';
 
 type Country = {
   name: string;
-  currencies: {} | string;
+  currencies: string;
   capital: string;
   region: string;
 };
@@ -40,23 +40,31 @@ export class GridComponent implements OnInit {
       this.countries = data;
     });
   }
-  handleSubmit(di: Dialog, event: Event, country: Country) {
-    this.modal = false;
+  handleSubmit = (country: Country) => {
     let countryList = this.countries.slice(0);
     countryList.push(country);
-    this.countries = countryList;
-  }
-  toggleModal() {
-    this.modal = !this.modal;
-  }
+    this.countries = [...countryList];
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Country is added',
+    });
+  };
+  closeModal = () => {
+    this.modal = true;
+  };
   onRowDelete(index: any) {
     delete this.countries[index];
-
     this.countries = this.countries.filter((country) => country !== undefined);
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Country is deleted',
+    });
   }
-  onRowEditInit(country: any) {
-    this.clonedCountries[country.id as string] = { ...country };
-  }
+  // onRowEditInit(country: any) {
+  //   this.clonedCountries[country.id as string] = { ...country };
+  // }
 
   onRowEditSave(country: any, index: number) {
     this.messageService.add({
@@ -64,33 +72,21 @@ export class GridComponent implements OnInit {
       summary: 'Success',
       detail: 'Country is updated',
     });
-    this.countries[index] = country;
+    //Dont need to do this step as country itself is a reference to the original
+    //on in the array and so when it is changed in the table it is changed in the array
+    //this.countries[index] = country;
   }
+
+  // onRowEditCancel(country: any, index: number) {
+  //   this.countries[index] = this.clonedCountries[country.id as string];
+  //   delete this.clonedCountries[country.id as string];
+  // }
+
   filter(event: Event, dt: Table) {
     const value = (event.target as HTMLInputElement).value;
     return dt.filterGlobal(value, 'contains');
   }
 
-  onRowEditCancel(country: any, index: number) {
-    this.countries[index] = this.clonedCountries[country.id as string];
-    delete this.clonedCountries[country.id as string];
-  }
-  customSort(event: SortEvent) {
-    event.data?.sort((data1, data2) => {
-      let value1 = data1[event.field!];
-      let value2 = data2[event.field!];
-      let result: any = null;
-
-      if (value1 == null && value2 != null) result = -1;
-      else if (value1 != null && value2 == null) result = 1;
-      else if (value1 == null && value2 == null) result = 0;
-      else if (typeof value1 === 'string' && typeof value2 === 'string')
-        result = value1.localeCompare(value2);
-      else result = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
-
-      return event.order! * result!;
-    });
-  }
   clear(table: Table) {
     table.clear();
   }

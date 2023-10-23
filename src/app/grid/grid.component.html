@@ -1,14 +1,12 @@
 <div class="card">
-  <app-modal [(modal)]="modal" [(handleSubmit)]="handleSubmit"></app-modal>
+  <app-modal [(modal)]="modal" [handleSubmit]="handleSubmit"></app-modal>
   <p-toast></p-toast>
   <p-table
-    #dt1
+    #dt
     [value]="countries"
     dataKey="id"
     editMode="row"
     [rows]="10"
-    (sortFunction)="customSort($event)"
-    [customSort]="true"
     [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 25, 50]"
     [loading]="loading"
@@ -23,19 +21,19 @@
           label="Clear"
           class="p-button-outlined ml-auto"
           icon="pi pi-filter-slash"
-          (click)="clear(dt1)"
+          (click)="clear(dt)"
         ></button>
         <span class="p-input-icon-left ml-auto">
           <i class="pi pi-search"></i>
           <input
             pInputText
             type="text"
-            (input)="filter($event, dt1)"
+            (input)="filter($event, dt)"
             placeholder="Search keyword"
           />
         </span>
         <p-button
-          (click)="toggleModal()"
+          (click)="closeModal()"
           icon="pi pi-external-link"
           label="Show"
         ></p-button>
@@ -153,7 +151,6 @@
                 type="button"
                 pInitEditableRow
                 icon="pi pi-pencil"
-                (click)="onRowEditInit(country)"
                 class="p-button-rounded p-button-text pi"
               ></button>
               <button
@@ -184,7 +181,6 @@
               type="button"
               pCancelEditableRow
               icon="pi pi-times"
-              (click)="onRowEditCancel(country, ri)"
               class="p-button-rounded p-button-text p-button-danger"
             ></button>
           </div>

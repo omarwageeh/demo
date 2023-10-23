@@ -8,15 +8,28 @@ import { Dialog } from 'primeng/dialog';
 })
 export class ModalComponent {
   @Input() handleSubmit: any;
-  @Input() modal: boolean;
+  @Input() modal: boolean = false;
   @Output() modalChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   country = {
     name: '',
     currencies: '',
     capital: '',
     region: '',
   };
+  OnInit() {
+    this.country = {
+      name: '',
+      currencies: '',
+      capital: '',
+      region: '',
+    };
+  }
+  onHide() {
+    this.modalChange.emit(false);
+  }
   handleSubmitChild(di: Dialog, event: Event) {
-    this.handleSubmit(di, event, this.country);
+    di.onHide.emit();
+    this.handleSubmit({ ...this.country });
   }
 }
